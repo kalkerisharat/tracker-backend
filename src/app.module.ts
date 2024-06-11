@@ -2,12 +2,17 @@ import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { AuthModule } from "./auth/auth.module";
 import { TaskModule } from "./task/task.module";
+import * as dotenv from "dotenv";
+import * as fs from "fs";
+
+// Load environment variables from .env file
+if (fs.existsSync(".env")) {
+  dotenv.config({ path: ".env" });
+}
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      "mongodb+srv://chetanserikar87:GdY96oDL3zIkjEy4@cluster0.wuijqz9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    ),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     AuthModule,
     TaskModule,
   ],
